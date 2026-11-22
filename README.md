@@ -7,8 +7,6 @@ Buka lewat server (GitHub Pages atau `python3 -m http.server`), bukan dengan kli
 
 ## Berkas
 
-Urutan muat di `index.html` (jangan diubah):
-
 | File | Isi |
 |---|---|
 | `style.css` | semua gaya |
