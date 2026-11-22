@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cubelendar</title>
+<meta name="description" content="Cubelendar: susun kubus 3×3 agar satu sisinya menampilkan hari, bulan, dan tanggal Masehi atau Hijriah, lengkap dengan panduan langkah demi langkah.">
+<meta name="theme-color" content="#a9aaa7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#2a2d2e" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark"><meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath fill='%23b3121b' d='M32 6 56 19 32 32 8 19z'/%3E%3Cpath fill='%2355595a' d='M8 19 32 32V58L8 45z'/%3E%3Cpath fill='%232a2d2e' d='M32 32 56 19V45L32 58z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>window.THREE||document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"><\/script>')</script>
+<link rel="stylesheet" href="style.css"></head><body>
+<noscript><div style="margin:12px;padding:10px 12px;border:2px solid #b3121b;font-family:monospace">Cubelendar membutuhkan JavaScript. Aktifkan JavaScript lalu muat ulang halaman.</div></noscript>
+<div id="nojs3d" role="alert" hidden>Tampilan 3D gagal dimuat (koneksi ke pustaka three.js terputus). Periksa koneksi internet, lalu <button type="button" onclick="location.reload()">muat ulang</button>.</div>
+<script>if(!window.THREE)document.getElementById("nojs3d").hidden=false</script>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-logo" viewBox="0 0 64 64"><path style="fill:currentColor;fill-opacity:.95;stroke:none" d="M32 6 56 19 32 32 8 19z"/><path style="fill:currentColor;fill-opacity:.55;stroke:none" d="M8 19 32 32V58L8 45z"/><path style="fill:currentColor;fill-opacity:.28;stroke:none" d="M32 32 56 19V45L32 58z"/><path style="fill:none;stroke:var(--bg);stroke-width:1.6" d="M24 10.3 48 23.3M16 14.7 40 27.7M40 10.3 16 23.3M48 14.7 24 27.7M16 23.3V49.3M24 27.7V53.7M8 27.7 32 40.7M8 36.3 32 49.3M40 27.7V53.7M48 23.3V49.3M32 40.7 56 27.7M32 49.3 56 36.3"/></symbol>
+<symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 8.5v7l6-3.5z"/></symbol>
+<symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19V5.5A2.5 2.5 0 0 1 6.5 3H20v14H6.5A2.5 2.5 0 0 0 4 19.5z"/><path d="M8 7.5h8M8 11h5"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></symbol>
+<symbol id="i-go" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</defs></svg>
+<nav id="tabs" role="tablist"><button id="thome" class="brand"><svg style="width:22px;height:22px;vertical-align:-6px;margin-right:6px;color:var(--fg)" viewBox="0 0 64 64"><use href="#i-logo"/></svg>Cubelendar</button><button id="ttut" role="tab">Tutorial</button><button id="tapp" role="tab">Aplikasi utama</button><button id="tstk" role="tab">Stiker PNG</button><button id="tsnd" title="Efek suara" aria-pressed="true">Suara: ON</button><button id="tthm" aria-label="Ganti mode terang atau gelap" title="Mode terang/gelap"></button></nav>
+<div id="home"><div class="ibox" style="max-width:860px">
+ <div class="hero"><svg class="logo" viewBox="0 0 64 64"><use href="#i-logo"/></svg><h1>Cubelendar</h1><p>Susun kubus Rubik 3×3 agar satu sisinya menampilkan hari, bulan, dan tanggal pilihan Anda, Masehi maupun Hijriah. Pilih salah satu menu di bawah untuk memulai.</p></div>
+ <div class="hcs">
+ <button class="hc main" id="happ"><span class="bi"><svg class="ic"><use href="#i-play"/></svg></span><b>Aplikasi utama</b><span class="d">Pilih tanggal dan ikuti panduan langkah demi langkah dengan kubus 3D.</span><em>Buka aplikasi <svg class="ic" style="width:16px;height:16px"><use href="#i-go"/></svg></em></button>
+ <button class="hc" id="htut"><span class="bi"><svg class="ic"><use href="#i-book"/></svg></span><b>Tutorial<span class="tag">Untuk pemula</span></b><span class="d">Pelajari cara kerja aplikasi dan latih kemampuan membaca notasi putaran (R, U', F2, dan seterusnya).</span><em>Mulai belajar <svg class="ic" style="width:16px;height:16px"><use href="#i-go"/></svg></em></button>
+ <button class="hc" id="hstk"><span class="bi"><svg class="ic"><use href="#i-print"/></svg></span><b>Stiker PNG</b><span class="d">Unduh lembar stiker siap cetak untuk membuat kubus kalender Anda sendiri.</span><em>Buka lembar stiker <svg class="ic" style="width:16px;height:16px"><use href="#i-go"/></svg></em></button>
+</div>
+</div></div>
+<div id="intro" role="tabpanel" aria-labelledby="ttut" hidden><div class="ibox">
+ <h1 style="font-size:22px">Cubelendar</h1>
+ <p>Aplikasi ini memandu Anda menyusun kubus Rubik kalender 3×3 sampai muka depannya menampilkan hari, bulan, dan tanggal pilihan Anda.</p>
+ <h2>Cara kerja</h2>
+ <ol><li>Pilih tanggal, lalu tekan <b>Mulai panduan langkah</b>.</li><li>Putar kubus asli satu langkah demi satu. Kubus 3D menandai sisi yang harus diputar dengan warna merah.</li><li>Terakhir, pegang kubus sesuai petunjuk. Muka depan kini menampilkan tanggal pilihan Anda.</li></ol>
+ <h2>Cara membaca notasi</h2>
+ <div class="nt"><div><b>U</b> sisi atas</div><div><b>D</b> sisi bawah</div><div><b>L</b> sisi kiri</div><div><b>R</b> sisi kanan</div><div><b>F</b> sisi depan</div><div><b>B</b> sisi belakang</div></div>
+ <div class="nt"><div><b>R</b> ↻ 90° searah jarum jam</div><div><b>R'</b> ↺ 90° berlawanan arah jarum jam</div><div><b>R2</b> ↻↻ 180°</div></div>
+ <div class="sub">"Searah jarum jam" dihitung saat Anda melihat langsung ke sisi yang diputar, bukan dari posisi Anda memegang kubus. Contoh: <code>R U' F2</code> = sisi kanan searah jarum jam, sisi atas berlawanan arah jarum jam, sisi depan 180°.</div>
+ <h2>Latihan</h2>
+ <div id="iq"></div>
+ <div style="margin:16px 0"><button class="pri" id="istart">Ke aplikasi utama ›</button></div>
+</div></div>
+<div id="stk" role="tabpanel" aria-labelledby="tstk" hidden><div class="ibox" style="max-width:900px">
+ <h1 style="font-size:20px"><svg class="ic" style="width:24px;height:24px;margin-right:6px"><use href="#i-print"/></svg>Cetak stiker mandiri (PNG)</h1>
+ <p>Lembar ini memuat jaring kubus 6 sisi dengan 54 stiker, dicetak seukuran kubus asli Anda. Pada posisi acuan, pusat <b>E</b> berada di sisi depan (F) dan pusat <b>A</b> di sisi atas (U). Cetak, gunting, lalu tempel setiap stiker pada posisi yang sama di kubus Anda.</p>
+ <div class="card tools"><div class="fld pop" style="min-width:190px"><span class="lbl" id="lpp">Ukuran kertas</span><select id="spp" hidden aria-labelledby="lpp"><option value="A0" data-sub="1189 × 841 mm">A0</option><option value="A1" data-sub="841 × 594 mm">A1</option><option value="A2" data-sub="594 × 420 mm">A2</option><option value="A3" data-sub="420 × 297 mm">A3</option><option value="A4" data-sub="297 × 210 mm" selected>A4</option><option value="A5" data-sub="210 × 148 mm">A5</option><option value="A6" data-sub="148 × 105 mm">A6</option></select></div>
+<div class="fld"><span class="lbl">Ukuran kubus (mm)</span><div class="step"><button type="button" id="sdn" aria-label="Kurangi ukuran kubus">−</button><input type="number" id="ssz" min="25" max="66" step="0.5" value="56" inputmode="decimal" aria-label="Ukuran kubus dalam milimeter"><button type="button" id="sup" aria-label="Tambah ukuran kubus">+</button></div></div>
+<div class="fld"><span class="lbl">Garis potong</span><div style="height:38px;display:flex;align-items:center"><input type="checkbox" class="tg" id="scut" checked aria-label="Garis potong"></div></div>
+<button class="pri" id="sdl">Unduh PNG</button></div>
+<div class="card"><div class="lbl" style="margin-bottom:8px">Warna stiker</div><div class="sws" id="sws"></div>
+<div class="row" style="margin-top:12px;gap:18px"><span class="cpr"><input type="color" class="cp" id="cbg" aria-label="Warna latar stiker"><span class="lbl">Latar<br><code id="hbg"></code></span></span><span class="cpr"><input type="color" class="cp" id="cfg" aria-label="Warna huruf stiker"><span class="lbl">Huruf<br><code id="hfg"></code></span></span><button id="crs">Atur ulang warna</button></div>
+<div class="sub" id="cwarn" style="margin:8px 0 0"></div></div>
+ <div class="sub" id="snote" style="margin:6px 0"></div>
+ <canvas id="scv" style="width:100%;height:auto;border:1px solid var(--line);background:#fff"></canvas>
+ <ol class="sub"><li>Pilih ukuran kertas (A0–A6, lanskap), lalu cetak pada kertas stiker dengan skala <b>100%</b> (nonaktifkan opsi "sesuaikan halaman" atau <i>fit to page</i>). Isi ukuran kubus Anda dengan mengukur lebar satu sisi (kubus 3×3 standar 55–57 mm). Ukuran stiker dihitung otomatis, sekitar 80% dari lebar satu keping.</li><li>Setiap sisi dilihat dari luar kubus dengan susunan jaring standar: U di atas F, L di kiri F, R di kanan F, B di sebelah kanan R, dan D di bawah F.</li><li>Dua stiker bergambar mengisi kotak yang semula kosong: orca di sudut kiri atas sisi F dan pohon di tengah atas sisi R. Titik atau garis abu-abu kecil adalah penanda arah, sama seperti pada kubus 3D.</li><li>Warna latar dan huruf dapat diganti pada panel <b>Warna stiker</b>. Pilihan disimpan dan ikut dipakai pada kubus 3D agar serasi dengan kubus fisik Anda. Gambar orca dan pohon tetap berwarna asli.</li></ol>
+</div></div>
+<div class="wrap" id="appv" role="tabpanel" aria-labelledby="tapp" hidden>
+<div>
+ <div id="stage" class="card"><div id="hint">Seret untuk memutar kubus. Pilih Depan atau 3 sisi untuk mengembalikan sudut pandang.</div></div>
+ <div class="camtb"><span class="lbl">Sudut pandang</span><div class="seg"><button id="c1" class="pri">Depan</button><button id="c3" title="Tampilan 3 sisi: depan, kanan, atas">3 sisi</button></div></div>
+  <p class="sub" style="margin-top:8px">Kubus dimulai dari posisi acuan: pusat E di depan dan pusat A di atas. Semua putaran memakai notasi standar dan dijalankan dari posisi ini.</p>
+</div>
+<div>
+ <div class="card">
+  <h1 class="sr">Cubelendar: aplikasi utama</h1>
+  <section class="sec"><h2 class="sh">Tanggal</h2>
+  <div class="row cm"><button id="mM" class="pri"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg><span>Masehi</span></button><button id="mH"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg><span>Hijriah</span></button><select id="hm" title="Metode kalender Hijriah" aria-label="Metode kalender Hijriah"><option value="mu">Muhammadiyah (KHGT: tinggi 5°, elongasi 8°)</option><option value="kg">Kemenag (MABIMS: tinggi 3°, elongasi 6,4°)</option><option value="uq">Umm al-Qura (Arab Saudi: ijtimak dan bulan terbenam)</option></select><span id="hadj" class="row" hidden><button id="aM" title="Kurangi 1 hari tanggal Hijriah">−1</button><span class="sub" id="aV" style="margin:0">Koreksi: 0 hari</span><button id="aP" title="Tambah 1 hari tanggal Hijriah">+1</button></span></div>
+  <div class="fld pop" id="dtw"><span class="lbl" id="ldt">Tanggal</span><div class="dnav"><button class="ib" id="dpv" aria-label="Hari sebelumnya">‹</button><button class="ctl" id="dbtn" aria-haspopup="dialog" aria-expanded="false" aria-labelledby="ldt dtx"><svg class="ic" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg><span id="dtx"></span><i class="chev"></i></button><button class="ib" id="dnx" aria-label="Hari berikutnya">›</button></div><input type="hidden" id="dt" value="2026-11-04"><div class="cal" id="cal" hidden role="dialog" aria-label="Pilih tanggal"></div></div>
+   </section>
+  <section class="sec"><h2 class="sh">Susun kubus</h2>
+  <div class="acts"><button class="pri" id="gstart">Mulai panduan langkah</button><button id="go" title="Kubus 3D berputar sendiri sampai muka depan menampilkan tanggal">Susun otomatis</button><button id="hold" title="Putar tampilan agar sisi depan sama seperti saat kubus dipegang">Cara pegang</button><button id="reset" title="Kembalikan kubus 3D ke posisi acuan">Atur ulang</button></div>
+  <div class="sub" id="acthelp"><b>Susun otomatis</b>: kubus 3D berputar sendiri sampai tanggal muncul. <b>Cara pegang</b>: putar tampilan ke arah kubus asli saat Anda memegangnya. <b>Atur ulang</b>: kembali ke posisi acuan.</div>
+  <div id="info" class="sub" style="margin-top:8px"></div>
+  <details id="hleg" hidden></details>
+  <div id="guide" hidden>
+   <div class="gbar"><div id="gfill"></div></div>
+   <div id="gnum"></div><div id="gbig"></div><div id="gtxt" aria-live="polite"></div>
+   <div class="row jf"><button id="gprev">‹ Sebelumnya</button><button id="gnext" class="pri">Mulai ›</button><button id="greplay">Ulangi gerakan</button><button id="gauto">Putar otomatis semua</button></div>
+   <label class="row" style="margin:8px 0 0"><input type="checkbox" id="gcam" checked>Sudut pandang otomatis mengikuti sisi yang diputar</label>
+   <div id="gchips" class="row" style="margin-top:8px"></div>
+   <details><summary>Cara membaca notasi</summary><div class="sub">Huruf menunjukkan sisi yang diputar: <b>U</b> atas, <b>D</b> bawah, <b>L</b> kiri, <b>R</b> kanan, <b>F</b> depan, <b>B</b> belakang. Putar hanya sisi tersebut; lapisan lain tetap diam. Tanpa tanda = 90° searah jarum jam (dilihat langsung dari sisi itu). Apostrof <b>'</b> = 90° berlawanan arah jarum jam. Angka <b>2</b> = 180°. Sisi merah pada kubus 3D adalah sisi yang harus diputar. Di komputer, tombol panah ← → juga dapat dipakai.</div></details>
+  </div>
+  </section>
+  <section class="sec"><h2 class="sh">Muka depan kubus</h2>
+  <div class="row tgt" style="align-items:flex-start;gap:14px"><div id="front" class="g3"></div><div><div id="status"></div><div class="sub" id="want"></div></div></div></section>
+  <section class="sec"><h2 class="sh">Putaran manual</h2>
+  <label for="mv">Ketik putaran, misalnya <code>R U R' U'</code></label>
+  <div class="row"><input id="mv" style="flex:1;min-width:140px" placeholder="D2 B' U2 R2 F" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" enterkeyhint="go"><button id="run">Jalankan</button></div>
+  <div id="mvmsg" class="sub" role="status" aria-live="polite" style="margin:6px 0 0"></div>
+  <div id="mvs"></div></section>
+ </div>
+</div>
+<details id="adv"><summary>Pulihkan kubus teracak</summary><div class="card" style="margin-top:14px"><h2 class="sh">Salin dari kubus asli</h2>
+<div class="sub">Salin kubus fisik Anda ke jaring ini: pilih huruf di palet, lalu ketuk kotak yang sesuai di jaring. Gunakan mode <b>Putar huruf</b> untuk mengatur arah huruf (wajib untuk huruf pusat di tengah tiap sisi).</div>
+<div class="row"><button id="mi" class="pri">Mode: Isi huruf</button></div><div id="pal"></div><div class="sub" style="margin:4px 0">Sisi yang tidak terbaca dapat dikosongkan dengan tombol <b>Kosongkan</b> di bawah; aplikasi akan melengkapinya. Cukup isi minimal 4 sisi, misalnya U, F, R, dan D.</div><div class="row" id="chips"></div><div id="ed" style="margin-top:8px"></div>
+<div class="row jf2" style="margin-top:6px"><button class="pri" id="bcam">Pindai dengan kamera</button><button id="b1">Muat dari 3D</button><button class="pri" id="b2">Terapkan ke 3D</button><button id="b3">Cari langkah ke acuan</button><button id="b4">Urungkan dengan riwayat</button></div><div id="msg" class="sub" style="margin-top:6px"></div></div>
+<div class="card" style="margin-top:14px"><h2 class="sh">Jaring 6 sisi saat ini</h2><div class="sub" style="margin-top:-2px">Cocokkan dengan kubus fisik Anda.</div><div id="net"></div><div id="netnote" class="sub" style="margin-top:6px"></div></div></details>
+</div>
+<div id="cam" hidden><div class="pn"><h2>Pindai kubus dengan kamera</h2><div class="nv" id="cnv"></div><div class="dr"><div class="sc3"><div class="tl"><div class="cb" id="ccb"><i class="fa fF" data-f="F">F</i><i class="fa fR" data-f="R">R</i><i class="fa fB" data-f="B">B</i><i class="fa fL" data-f="L">L</i><i class="fa fU" data-f="U">U</i><i class="fa fD" data-f="D">D</i></div></div></div><div><div class="sub" id="cins" style="margin:0"></div><div id="cdt"></div></div></div>
+<div class="vw"><video id="cvid" playsinline muted></video><div class="gd"></div><div id="carr" data-d=""></div></div>
+<div class="row"><button class="pri" id="csnap">Simpan sisi ini</button><label class="row" style="margin:0"><button type="button" id="cup">Unggah foto</button><input type="file" id="cfile" accept="image/*" capture="environment" hidden></label><button id="crot" hidden>Mode: Tebak ulang</button><button id="crd" hidden>Baca ulang</button><button id="cskip">Lewati sisi</button><button id="cend">Selesai</button></div>
+<div class="sub" id="cres" style="margin:8px 0 0"></div><div class="rs" id="crs3"></div></div></div>
+<script src="core.js"></script>
+<script src="data.js"></script>
+<script src="assets.js"></script>
+<script src="hijri.js"></script>
+<script src="app.js"></script></body></html>
